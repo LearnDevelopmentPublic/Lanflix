@@ -1,26 +1,40 @@
 const mongoose = require('mongoose');
 const Series = require('../models').Series;
 const Movies = require('../models').Movie;
+const Queries = require('../services/Queries');
 
 module.exports = {
   series(req, res) {
-      Series.find(function(err, series) {
-          if(err) {
-              res.sendStatus(500);
-          } else {
-              res.send(series);
-          }
-      })
+      const data = Queries.series(req, res);
+
+      data ? res.send(data) : res.send([]);
   },
 
-  movies(req, res) {
-      Movies.find(function(err, movies) {
-          if(err) {
-              res.sendStatus(500);
-          } else {
-              res.send(movies);
-          }
-      })
+	movies(req, res) {
+    const data = Queries.movies(req, res);
+
+    data ? res.send(data) : res.send([]);
+  },
+
+	browse(req, res) {
+	const { series, movies } = Queries;
+	Promise.all([
+			movies(req, res),
+			series(req, res)
+		])
+		//Feel free to use whatever version suits you best
+		// .then( data => data.filter(curr => curr ? curr : null))
+		// .then( data => [].concat(...data))
+		// .then( data => data ? res.send(data) : res.send([]))
+		.then( response => {
+			//Filters out any bad responses, e.g undefined
+			const data = response.filter(curr => curr ? curr : null);
+			//Flattens array
+			const tempArr = [].concat(...data);
+			//Sends back data the data or if there is none then an empty array
+			data ? res.send(data) : res.send([]);
+		})
+		.catch(err => res.sendStatus(500));
   },
 
   seriesById(req, res) {
