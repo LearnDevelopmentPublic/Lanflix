@@ -9,6 +9,7 @@ function initRoutes(app) {
     app.get('/', ViewController.index);
     app.get('/categories', CategoriesController.categories);
     app.get('/playground', ViewController.playground);
+    app.get('/browse', SeriesMovieController.browse)
     app.get('/series', SeriesMovieController.series);
     app.get('/series/:id', SeriesMovieController.seriesById);
     app.get('/series/:id/episodes', SeriesMovieController.episodes);
