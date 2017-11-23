@@ -6,7 +6,7 @@ var categoriesSchema = new mongoose.Schema({
     unique: true,
     required: true
   },
-  description: string
+  description: String
 });
 
 var Categories = module.exports = mongoose.model('Categories', categoriesSchema);
