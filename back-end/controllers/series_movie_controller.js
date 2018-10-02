@@ -37,6 +37,20 @@ module.exports = {
       })
   },
 
+  moviesById(req, res) {
+      var moviesId = req.params.id;
+      if(!mongoose.Types.ObjectId.isValid(moviesId)) {
+          return res.status(400).send("The provided movies id is invalid!");
+      }
+      Movies.findById(moviesId, function(err, movies) {
+          if(err) {
+              res.sendStatus(500);
+          } else {
+              res.send(movies);
+          }
+      })
+  },
+
   episodes(req, res) {
       var seriesId = req.params.id;
       if(!mongoose.Types.ObjectId.isValid(seriesId)) {

@@ -14,6 +14,7 @@ function initRoutes(app) {
     app.get('/series/:id/episodes', SeriesMovieController.episodes);
     app.get('/series/:id/episodes/:eid', SeriesMovieController.episodesByEid);
     app.get('/movies', SeriesMovieController.movies);
+    app.get('/movies/:id', SeriesMovieController.moviesById);
 }
 
 module.exports = initRoutes;
